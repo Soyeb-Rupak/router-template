@@ -6,6 +6,7 @@ import app from "../firebase/firebase.config";
 const Login = () => {
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
+const [error, setError] = useState(null);
 const auth = getAuth(app);
 const navigate = useNavigate();
 
@@ -20,13 +21,15 @@ signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    
+
 navigate("/Products");
     // ...
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    setError('Invalid email or password');
+
   });
 
 };
@@ -59,6 +62,7 @@ navigate("/Products");
                 <div>
                   <a className="link link-hover">Forgot password?</a>
                 </div>
+                {error && <p className="text-red-500">{error}</p>}
                 <button className="btn btn-neutral mt-4">Login</button>
               </fieldset>
             </form>
